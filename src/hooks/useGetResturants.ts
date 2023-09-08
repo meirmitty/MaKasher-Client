@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Position} from "../hooks/useGetUserLocation";
+import {Position} from "./useGetUserLocation";
 import axios from "axios";
 
 export default function useGetResturants(currentLocation: Position | undefined) {
@@ -10,10 +10,8 @@ export default function useGetResturants(currentLocation: Position | undefined) 
             setResturants([])
         } else {
             const url = `http://localhost:3000/resturants/${currentLocation.longitude}/${currentLocation.latitude}`
-            axios.get(url).then((response) => {
-                setResturants(response.data)
-            })
-            //get resturants
+            axios.get(url).then((response) => setResturants(response.data)
+            )
         }
     }, [currentLocation])
 
