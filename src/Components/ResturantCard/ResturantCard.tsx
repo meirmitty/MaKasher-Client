@@ -5,16 +5,16 @@ import {
     CardContent,
     CardHeader,
     CardMedia,
-    Collapse,
     IconButton,
     IconButtonProps,
     styled,
     Typography
 } from '@material-ui/core';
 import * as React from 'react';
-import {Favorite, MoreVert, Share, ExpandMore as ExpandMoreIcon} from "@material-ui/icons";
-import {useState} from "react";
+import {useState} from 'react';
+import {ExpandMore as ExpandMoreIcon, Favorite, MoreVert, Share} from "@material-ui/icons";
 import {ResturantType} from "../ShowResturants/ShowResturants";
+import HechsherCollapse from "../HechsherCollapse/HechsherCollapse";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -23,7 +23,7 @@ interface ExpandMoreProps extends IconButtonProps {
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const {expand, ...other} = props;
     return <IconButton {...other} style={{
-        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)'
     }}/>;
 })(({theme}) => ({
     marginLeft: 'auto',
@@ -37,8 +37,7 @@ export default function ResturantCard({resturant}: { resturant: ResturantType })
 
     const handleExpandClick = () => setExpanded(!expanded);
 
-    return (
-        <Card style={{maxWidth: "90%"}}>
+    return (<Card style={{maxWidth: "90%"}}>
             <CardHeader
                 avatar={
                     <Avatar>
@@ -79,9 +78,9 @@ export default function ResturantCard({resturant}: { resturant: ResturantType })
                     <ExpandMoreIcon/>
                 </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-
-            </Collapse>
+            <HechsherCollapse resturant={resturant} expanded={expanded}/>
         </Card>
     );
+
+
 }
