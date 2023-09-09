@@ -3,7 +3,8 @@ import * as React from "react";
 import {useState} from "react";
 import {ResturantType} from "../ShowResturants/ShowResturants";
 import EditIcon from '@material-ui/icons/Edit';
-import {Cancel, Check} from "@material-ui/icons";
+import {AddPhotoAlternate, Cancel, Check} from "@material-ui/icons";
+import axios from "axios";
 
 interface HechsherCollapseType {
     resturant: ResturantType
@@ -12,6 +13,9 @@ interface HechsherCollapseType {
 
 const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
     const [editMode, setEditMode] = useState<boolean>(false);
+    const [newName, setNewName] = useState<string>(resturant.name);
+    const [newPicture, setNewPicture] = useState<string | ArrayBuffer | null>('');
+
 
     return <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Grid container spacing={2} direction={'column'}>
@@ -19,16 +23,36 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                 <Grid container spacing={1} alignItems={'center'}>
                     <Grid item style={{textAlign: 'right'}}><Typography>Hechsher:</Typography></Grid>
                     <Grid item>{
-                        editMode ? <TextField variant="standard" placeholder={resturant.name}/> :
+                        editMode ? <TextField variant="standard" value={newName} onChange={(event) => {
+                                setNewName(event.target.value)
+                            }
+                            }/> :
                             <Typography>{resturant.name}</Typography>
                     }</Grid>
+                    <Grid item>{editMode &&
+                    <Button variant={'outlined'} component={'label'}><AddPhotoAlternate/>
+                        <input type="file" hidden onChange={(e) => {
+                            if (!e.target.files) {
+                                return;
+                            }
+                            const file = e.target.files[0];
+
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                setNewPicture(reader.result)
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                        }/></Button>
+                    }
+                    </Grid>
                 </Grid>
             </Grid>
-            <Grid item>
+            <Grid item id={'test'}>
                 <CardMedia
                     component="img"
                     height="300"
-                    src={'http://www.jerusalemkoshernews.com/wp-content/uploads/rav-rubin-mehadrin-dairy-213x300.jpg'}
+                    image={newPicture as string || 'http://www.jerusalemkoshernews.com/wp-content/uploads/rav-rubin-mehadrin-dairy-213x300.jpg'}
                     alt="Hechsher"
                 />
             </Grid>
@@ -38,8 +62,22 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                 }}><EditIcon/></Button>}
                 {
                     editMode && <ButtonGroup onClick={() => setEditMode(false)}>
-                        <Button><Check/></Button>
-                        <Button><Cancel/></Button>
+                        <Button
+                            onClick={() => {
+                                const url = `http://localhost:3000/kashruts/add`
+                                axios.post(url, {
+                                    id: resturant.place_id,
+                                    hechsher: newName,
+                                    picture: newPicture
+                                }).then((res) => {
+                                    console.log(res)
+                                })
+                            }}
+                        ><Check/></Button>
+                        <Button onClick={() => {
+                            setNewName(resturant.name)
+                            setNewPicture('')
+                        }}><Cancel/></Button>
                     </ButtonGroup>
                 }
             </Grid>
