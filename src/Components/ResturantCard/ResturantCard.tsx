@@ -79,7 +79,7 @@ export default function ResturantCard({resturant}: { resturant: ResturantType })
                     <ExpandMoreIcon/>
                 </ExpandMore>
             </CardActions>
-            <HechsherCollapse resturant={resturant} expanded={expanded}/>
+        {resturant.hechsher &&<HechsherCollapse resturant={resturant} expanded={expanded}/>}
         </Card>
     );
 

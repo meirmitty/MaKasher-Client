@@ -11,10 +11,10 @@ interface HechsherCollapseType {
     expanded: boolean
 }
 
-const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
+const HechsherCollapse = ({resturant: {hechsher: {kashrut, picture}, place_id}, expanded}: HechsherCollapseType) => {
     const [editMode, setEditMode] = useState<boolean>(false);
-    const [newName, setNewName] = useState<string>(resturant.name);
-    const [newPicture, setNewPicture] = useState<string | ArrayBuffer | null>('');
+    const [newName, setNewName] = useState<string>(kashrut);
+    const [newPicture, setNewPicture] = useState<string | ArrayBuffer | null>(picture);
 
 
     return <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -27,7 +27,7 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                                 setNewName(event.target.value)
                             }
                             }/> :
-                            <Typography>{newName || resturant.name}</Typography>
+                            <Typography>{newName || kashrut}</Typography>
                     }</Grid>
                     <Grid item>{editMode &&
                     <Button variant={'outlined'} component={'label'}><AddPhotoAlternate/>
@@ -66,7 +66,7 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                             onClick={() => {
                                 const url = `http://localhost:3000/kashruts/add`
                                 axios.post(url, {
-                                    id: resturant.place_id,
+                                    _id: place_id,
                                     name: newName,
                                     picture: newPicture
                                 }).then((res) => {
@@ -76,8 +76,8 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                             }}
                         ><Check/></Button>
                         <Button onClick={() => {
-                            setNewName(resturant.name)
-                            setNewPicture('')
+                            setNewName(kashrut)
+                            setNewPicture(picture)
                         }}><Cancel/></Button>
                     </ButtonGroup>
                 }

@@ -12,13 +12,17 @@ export interface ResturantType {
     icon_background_color: string
     icon_mask_base_uri: string
     opening_hours: { open_now: true }
-    photos: {photo_reference: string}[]
+    photos: { photo_reference: string }[]
     place_id: string
     price_level: number
     rating: number
     reference: string
     types: string[]
     user_ratings_total: 4568
+    hechsher: {
+        kashrut: string
+        picture: string
+    }
 }
 
 const ShowResturants = () => {
