@@ -10,7 +10,9 @@ export default function useGetResturants(currentLocation: Position | undefined) 
             setResturants([])
         } else {
             const url = `http://localhost:3000/resturants/${currentLocation.longitude}/${currentLocation.latitude}`
-            axios.get(url).then((response) => setResturants(response.data)
+            axios.get(url).then((response) => {
+                    response.data && setResturants(response.data)
+                }
             )
         }
     }, [currentLocation])

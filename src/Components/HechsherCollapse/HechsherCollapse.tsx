@@ -27,7 +27,7 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                                 setNewName(event.target.value)
                             }
                             }/> :
-                            <Typography>{resturant.name}</Typography>
+                            <Typography>{newName || resturant.name}</Typography>
                     }</Grid>
                     <Grid item>{editMode &&
                     <Button variant={'outlined'} component={'label'}><AddPhotoAlternate/>
@@ -67,10 +67,11 @@ const HechsherCollapse = ({resturant, expanded}: HechsherCollapseType) => {
                                 const url = `http://localhost:3000/kashruts/add`
                                 axios.post(url, {
                                     id: resturant.place_id,
-                                    hechsher: newName,
+                                    name: newName,
                                     picture: newPicture
                                 }).then((res) => {
                                     console.log(res)
+                                    setEditMode(false)
                                 })
                             }}
                         ><Check/></Button>

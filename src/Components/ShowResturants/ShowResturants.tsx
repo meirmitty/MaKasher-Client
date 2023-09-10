@@ -24,7 +24,6 @@ export interface ResturantType {
 const ShowResturants = () => {
     const {currentLocation} = useGetUserLocation()
     const {resturants} = useGetResturants(currentLocation)
-    console.log(resturants[0])
     return <Grid container spacing={2}>{resturants.map((resturant: ResturantType, index: number) =>
         <Grid item xs={4} key={index}><ResturantCard resturant={resturant}/></Grid>
     )}</Grid>

@@ -51,12 +51,13 @@ export default function ResturantCard({resturant}: { resturant: ResturantType })
                 }
                 title={resturant.name}
             />
+            {resturant.photos &&
             <CardMedia
                 component="img"
                 height="194"
                 src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${resturant.photos[0].photo_reference}&key=AIzaSyB0UZEfccGHd_GUDy8gI6dqzqvU8pWuDQg`}
                 alt="Paella dish"
-            />
+            />}
             <CardContent>
                 <Typography style={{fontSize: 10}}>
                     Address: {resturant.vicinity}
