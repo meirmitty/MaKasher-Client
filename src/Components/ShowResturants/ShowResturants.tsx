@@ -2,6 +2,7 @@ import useGetUserLocation from "../../hooks/useGetUserLocation";
 import useGetResturants from "../../hooks/useGetResturants";
 import ResturantCard from "../ResturantCard/ResturantCard";
 import {Grid} from "@material-ui/core";
+import {useEffect} from "react";
 
 export interface ResturantType {
     name: string;
@@ -28,7 +29,9 @@ export interface ResturantType {
 const ShowResturants = () => {
     const {currentLocation} = useGetUserLocation()
     const {resturants} = useGetResturants(currentLocation)
-    return <Grid container spacing={2}>{resturants.map((resturant: ResturantType, index: number) =>
+
+    return <Grid container spacing={6}
+                 style={{marginTop: 10}}>{resturants.map((resturant: ResturantType, index: number) =>
         <Grid item xs={4} key={index}><ResturantCard resturant={resturant}/></Grid>
     )}</Grid>
 

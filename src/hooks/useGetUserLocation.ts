@@ -10,7 +10,7 @@ export default function useGetUserLocation() {
 
     useEffect(() => {
         getLocation();
-    })
+    },[])
 
     const getLocation = () => {
         if (navigator.geolocation) {

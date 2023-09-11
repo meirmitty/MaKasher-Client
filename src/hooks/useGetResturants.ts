@@ -11,7 +11,11 @@ export default function useGetResturants(currentLocation: Position | undefined) 
         } else {
             const url = `http://localhost:3000/resturants/${currentLocation.longitude}/${currentLocation.latitude}`
             axios.get(url).then((response) => {
-                    response.data && setResturants(response.data)
+                    const modifiedResturants = JSON.parse(JSON.stringify(response.data)).map((resturant: any) => {
+                        resturant.hechsher = resturant._doc
+                        return resturant;
+                    })
+                    response.data && setResturants(modifiedResturants)
                 }
             )
         }

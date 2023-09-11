@@ -37,7 +37,7 @@ export default function ResturantCard({resturant}: { resturant: ResturantType })
 
     const handleExpandClick = () => setExpanded(!expanded);
 
-    return (<Card style={{maxWidth: "90%"}}>
+    return (<Card style={{maxWidth: "100%"}}>
             <CardHeader
                 avatar={
                     <Avatar>
@@ -79,7 +79,7 @@ export default function ResturantCard({resturant}: { resturant: ResturantType })
                     <ExpandMoreIcon/>
                 </ExpandMore>
             </CardActions>
-        {resturant.hechsher &&<HechsherCollapse resturant={resturant} expanded={expanded}/>}
+        {<HechsherCollapse resturant={resturant} expanded={expanded}/>}
         </Card>
     );
 
