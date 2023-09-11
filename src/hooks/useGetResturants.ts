@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {Position} from "./useGetUserLocation";
 import axios from "axios";
+import {ResturantType} from "../Components/ShowResturants/ShowResturants";
 
 export default function useGetResturants(currentLocation: Position | undefined) {
-    const [resturants, setResturants] = useState<any>([])
+    const [resturants, setResturants] = useState<ResturantType[]>([])
 
     useEffect(() => {
         if (!currentLocation) {
