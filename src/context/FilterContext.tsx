@@ -1,43 +1,34 @@
-import React, {createContext, useContext, useState} from "react";
+import React, {createContext, Dispatch, SetStateAction, useContext, useState} from "react";
 
 const FilterContext = createContext<{
-    setKosherFilter: (kosher: boolean) => void;
-    getKosherFilter: () => boolean;
+    setKosher: Dispatch<SetStateAction<boolean>>
+    kosher: boolean
+    setSearchValue: Dispatch<SetStateAction<string>>
+    searchValue: string
 }>({
-        setKosherFilter(kosher: boolean): void {
+        setKosher(value: ((prevState: boolean) => boolean) | boolean): void {
+        }, setSearchValue(value: ((prevState: string) => string) | string): void {
         },
-        getKosherFilter(): boolean {
-            return true;
-        },
-
+        searchValue: '',
+        kosher: true
     }
 );
 
-interface filterContext {
-    kosher: boolean
-}
 
 const FilterProvider = ({children}: React.PropsWithChildren<{}>) => {
-    const [filters, setFilters] = useState<filterContext>({kosher: true});
-
-    const getKosherFilter = () => filters.kosher;
-    const setKosherFilter = (kosher: boolean) => {
-        setFilters((oldFilters) => {
-            return {...oldFilters, kosher: kosher}
-        });
-    }
+    const [kosher, setKosher] = useState<boolean>(true);
+    const [searchValue, setSearchValue] = useState<string>('');
 
     return <FilterContext.Provider value={{
-        getKosherFilter,
-        setKosherFilter
+        kosher, setKosher, searchValue, setSearchValue
     }}
     ><>{children}</>
     </FilterContext.Provider>
 }
 
 function useFilterContext() {
-    const {setKosherFilter, getKosherFilter} = useContext(FilterContext);
-    return {setKosherFilter, getKosherFilter}
+    const {kosher, setKosher, searchValue, setSearchValue} = useContext(FilterContext);
+    return {kosher, setKosher, setSearchValue, searchValue}
 }
 
 export

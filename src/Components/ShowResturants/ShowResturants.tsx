@@ -24,23 +24,30 @@ export interface ResturantType {
     hechsher: {
         kashrut: string
         picture: string
+        mashgiachNumber: string
     }
 }
 
 const ShowResturants = () => {
     const {currentLocation} = useGetUserLocation()
     const {resturants} = useGetResturants(currentLocation)
-    const {getKosherFilter} = useFilterContext();
+    const {kosher, searchValue} = useFilterContext();
 
     const [shownResturants, setShownResturants] = useState<ResturantType[]>(resturants)
     useEffect(() => {
-        if (getKosherFilter()) {
-            setShownResturants(resturants.filter((resturant) => resturant.hechsher
-            ))
-        }else{
-            setShownResturants(resturants)
+        let newResturants = [...resturants]
+        if (kosher) {
+            newResturants = newResturants.filter((resturant) => resturant.hechsher
+            )
         }
-    }, [getKosherFilter(), resturants])
+        if (searchValue) {
+            newResturants = newResturants.filter((resturant) =>
+                resturant.name.toLowerCase().includes(searchValue.toLowerCase())
+            );
+        }
+
+        setShownResturants(newResturants)
+    }, [kosher, resturants, searchValue])
 
     return <Grid container spacing={6}
                  style={{marginTop: 10}}>{shownResturants.map((resturant: ResturantType, index: number) =>

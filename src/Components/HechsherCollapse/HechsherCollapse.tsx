@@ -15,10 +15,11 @@ const HechsherCollapse = ({resturant: {hechsher, place_id}, expanded}: HechsherC
     const [editMode, setEditMode] = useState<boolean>(false);
     const [newName, setNewName] = useState<string>(hechsher?.kashrut || 'Not Kosher');
     const [newPicture, setNewPicture] = useState<string | ArrayBuffer | null>(hechsher?.picture || "https://yeahthatskosher.com/wp-content/uploads/2013/10/not-kosher.jpeg");
+    const [newMashgiachNumber, setNewMashgiachNumber] = useState<string>(hechsher?.mashgiachNumber || '')
 
     return <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Grid container spacing={2} direction={'column'}>
-            <Grid item style={{marginLeft: 10}}>
+        <Grid container spacing={2} direction={'column'} style={{marginLeft: 10}}>
+            <Grid item>
                 <Grid container spacing={1}>
                     <Grid item style={{textAlign: 'right'}}><Typography>Hechsher:</Typography></Grid>
                     <Grid item>{
@@ -54,6 +55,19 @@ const HechsherCollapse = ({resturant: {hechsher, place_id}, expanded}: HechsherC
                     alt="Hechsher"
                 />
             </Grid>
+            <Grid item>
+                <Grid container spacing={1}>
+                    <Grid item>
+                        Mashgiachs Number:
+                    </Grid>
+                    <Grid item>
+                        {editMode ? <TextField variant="standard" value={newMashgiachNumber}
+                                               onChange={(event) => setNewMashgiachNumber(event.target.value)
+                                               }/> :
+                            <Typography>{newMashgiachNumber}</Typography>}
+                    </Grid>
+                </Grid>
+            </Grid>
             <Grid item style={{marginBottom: 5, textAlign: 'center'}}>
                 {!editMode && <Button variant={'outlined'} onClick={() => setEditMode(true)}><EditIcon/></Button>}
                 {
@@ -64,7 +78,8 @@ const HechsherCollapse = ({resturant: {hechsher, place_id}, expanded}: HechsherC
                                 axios.post(url, {
                                     _id: place_id,
                                     name: newName,
-                                    picture: newPicture
+                                    picture: newPicture,
+                                    mashgiachNumber: newMashgiachNumber
                                 }).then((res) => {
                                     console.log(res)
                                     setEditMode(false)
