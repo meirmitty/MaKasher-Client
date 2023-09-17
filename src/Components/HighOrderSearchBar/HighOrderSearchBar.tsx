@@ -1,6 +1,5 @@
 import {Box} from "@material-ui/core";
 
-
 interface HighOrderSearchBarProps {
     searchBar: JSX.Element;
 }

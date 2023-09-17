@@ -1,19 +1,15 @@
-import React from "react";
-import NavBar from "./Components/Navbar/Navbar";
-import ShowResturants from "./Components/ShowResturants/ShowResturants";
+import React from 'react';
 import {FilterProvider} from "./context/FilterContext";
+import ShowResturants from "./Components/ShowResturants/ShowResturants";
+import NavBar from './Components/Navbar/Navbar';
 
-export default function App() {
-
-    return <>
-        <FilterProvider>
-            <NavBar/>
-            <ShowResturants/>
-        </FilterProvider>
-    </>
-
-
+function App() {
+  return (
+      <FilterProvider>
+        <NavBar/>
+        <ShowResturants/>
+      </FilterProvider>
+  );
 }
 
-
-
+export default App;
